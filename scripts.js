@@ -1,17 +1,33 @@
+// scripts.js
+
 async function fetchData() {
     const apiKey = 'AIzaSyDUh-5jLX1CYpChTGuyEXEObjIL2JyCIuI';
     const sheetId = '1j0Q6GEwEec4-kn8o8NWKaNGarh7lzsjge22dalsKkmo';
     const sheetName = 'Mi.Pagina';
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
 
-    console.log('Fetching data from URL:', url);
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log('Data fetched:', data);
-    return data.values;
+    try {
+        console.log('Fetching data from URL:', url);
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Data fetched:', data);
+        return data.values;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        alert('Hubo un problema al obtener los datos. Por favor, inténtalo de nuevo más tarde.');
+        return [];
+    }
 }
 
 function processData(data) {
+    if (!Array.isArray(data) || data.length === 0) {
+        console.warn('Invalid data format:', data);
+        return {};
+    }
+
     const headers = data[0];
     const rows = data.slice(1);
     const productos = {};
@@ -57,14 +73,22 @@ function processData(data) {
 }
 
 function createCarousel(images) {
+    const defaultImage = 'placeholder-image.png'; // Ruta de la imagen de marcador de posición
+
     return `
-        <div class="carousel">
-            <img class="main-image" src="${images[0]}" alt="Producto">
-            <div class="thumbnails">
-                ${images.map((img, index) => `<img src="${img}" alt="Producto" class="${index === 0 ? 'selected' : ''}" onclick="changeMainImage(this)">`).join('')}
+        <div class="carousel" role="region" aria-label="Carrusel de imágenes del producto">
+            <div class="image-container">
+                <img class="main-image" src="${images[0] || defaultImage}" alt="Imagen del producto" loading="lazy" onload="this.classList.add('loaded')">
+            </div>
+            <div class="thumbnails" role="list">
+                ${images.map((img, index) => `<img src="${img || defaultImage}" alt="Miniatura del producto ${index + 1}" class="${index === 0 ? 'selected' : ''}" loading="lazy" role="listitem" tabindex="0" onclick="changeMainImage(this)">`).join('')}
             </div>
         </div>
     `;
+}
+
+function formatPrice(price) {
+    return `$${price.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
 
 function createProductElement(id, product) {
@@ -82,17 +106,17 @@ function createProductElement(id, product) {
 
     console.log('Creating product element for ID:', id);
     return `
-        <article data-id="${id}">
+        <article data-id="${id}" aria-labelledby="product-name-${id}">
             ${createCarousel(defaultProduct.imagenes)}
-            <h2>${defaultProduct.nombre}</h2>
-            <p>Precio: $<span class="precio">${defaultProduct.precio}</span></p>
+            <h2 id="product-name-${id}">${defaultProduct.nombre}</h2>
+            <p>Precio: <span class="precio">${formatPrice(defaultProduct.precio)}</span></p>
             <label for="baulera-${id}">Baulera</label>
-            <select id="baulera-${id}" class="baulera">
+            <select id="baulera-${id}" class="baulera" aria-label="Seleccionar tipo de baulera">
                 <option value="con">Con Baulera</option>
                 <option value="sin">Sin Baulera</option>
             </select>
             <label for="color-${id}">Color</label>
-            <select id="color-${id}" class="color">
+            <select id="color-${id}" class="color" aria-label="Seleccionar color">
                 ${conColors.map(color => `<option value="${color}">${color}</option>`).join('')}
             </select>
         </article>
@@ -106,7 +130,7 @@ function updateProductDetails(product, baulera, color, article) {
         return;
     }
     console.log('Updating product details for:', baulera, color, selectedProduct);
-    article.querySelector('.precio').innerText = selectedProduct.precio;
+    article.querySelector('.precio').innerText = formatPrice(selectedProduct.precio);
     const carousel = article.querySelector('.carousel');
     carousel.innerHTML = createCarousel(selectedProduct.imagenes);
     article.querySelector('h2').innerText = selectedProduct.nombre;
@@ -123,8 +147,11 @@ function changeMainImage(thumbnail) {
 }
 
 async function main() {
+    const spinner = document.getElementById('loading-spinner');
+    spinner.classList.add('show');
     const data = await fetchData();
     const productos = processData(data);
+    spinner.classList.remove('show');
     const productosContainer = document.getElementById('productos');
 
     Object.keys(productos).forEach(id => {
@@ -156,7 +183,7 @@ async function main() {
             updateProductDetails(product, baulera, color, article);
         });
 
-        // Trigger an initial change event to set the correct state
+        // Disparar un evento inicial de cambio para establecer el estado correcto
         bauleraSelect.dispatchEvent(new Event('change'));
     });
 }
