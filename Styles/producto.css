@@ -1,0 +1,154 @@
+#contenedor-tarjetas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.tarjeta-producto {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    width: 300px;
+    margin: 20px;
+}
+
+.imagen-producto {
+    overflow: hidden; /* Para ocultar el borde de la imagen al hacer zoom */
+    display: flex;
+    position: relative; /* Necesario para que .vista-rapida se posicione correctamente */
+}
+
+.imagen-producto img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+    transition: transform 0.5s ease; /* Transición suave */
+    cursor: pointer; /* Cambia el cursor a una mano al pasar por encima de la imagen */
+}
+
+.imagen-producto:hover img {
+    transform: scale(1.05); /* Agrandar la imagen un 15% */
+}
+
+.vista-rapida {
+    position: absolute;
+    bottom: 0; /* Posición final cuando está visible */
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+    color: white;
+    font-size: .8em; /* Ajusta el tamaño de fuente según sea necesario */
+    text-align: center;
+    padding: 8px 0; /* Ajusta el padding según sea necesario */
+    opacity: 0;
+    transform: translateY(100%); /* Empieza fuera de la vista, por debajo de la imagen */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transición suave para el efecto de aparición y desaparición */
+    font-family: "Montserrat", sans-serif;
+}
+
+.imagen-producto:hover .vista-rapida {
+    opacity: 1; /* Hace que .vista-rapida sea visible al pasar el cursor por encima */
+    transform: translateY(0); /* Mueve .vista-rapida a su posición final */
+}
+
+.imagen-producto:hover .vista-rapida:hover {
+    opacity: 1; /* Mantiene .vista-rapida visible si el cursor está sobre él */
+    transform: translateY(0); /* Asegura que .vista-rapida no se mueva */
+}
+
+.tarjeta-producto h2 {
+    font-size: 1.25em;
+    margin: 10px 0;
+    font-weight: normal;
+    color: #555;
+}
+
+.linea-separadora {
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.tarjeta-producto .precio {
+    color: #777;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.tarjeta-producto .precio span {
+    font-weight: normal;
+    color: #555;
+}
+
+.tarjeta-producto .promo {
+    color: #ff7c7c;
+    font-size: 1em;
+    margin-top: 0;
+}
+
+.tarjeta-producto .promo span {
+    font-weight: bold;
+}
+
+.botones {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.btn {
+    background-color: #797979;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 2px 6px 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Montserrat", sans-serif;
+}
+
+#baulera{
+    border-top: 0px;
+}
+
+.btn:hover {
+    background-color: #ff7c7c;
+}
+
+.btn.carrito:hover {
+    background-color: #ff7c7c;
+}
+
+select {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1em;
+    border-radius: 0px;
+    border: 1px solid #ddd;
+    width: 100%;
+    text-align: center;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 3px 0px;
+    point
+}
+
+select#colores:focus,
+#baulera:focus {
+    border-color: #ff7c7c;
+
+}
+
+/* Estilo para la opción seleccionada */
+select#colores option:checked,
+#baulera:checked {
+    background-color: #ff7c7c;
+    color: #fff;
+}
+
+select:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
