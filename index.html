@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Muebles</title>
     <link rel="stylesheet" href="/Styles/producto.css">
-    <!-- Fuentes de google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
@@ -14,6 +13,8 @@
     <link rel="stylesheet" href="Styles/main.css">
     <link rel="stylesheet" href="Styles/producto.css">
     <link rel="stylesheet" href="Styles/headerfooter.css">
+    <link rel="stylesheet" href="Styles/modalProducto.css">
+    <link rel="stylesheet" href="Styles/botones.css">
 </head>
 
 <body>
@@ -25,11 +26,10 @@
     </header>
 
     <main>
-        <!-- Parte relevante del archivo HTML -->
         <div id="contenedor-tarjetas">
             <div class="tarjeta-producto" style="display: none;">
                 <div class="imagen-producto">
-                    <img id="producto-imagen" src="" alt="Producto">
+                    <img id="producto-imagen" src="" alt="Producto" class="producto-imagen">
                     <div class="vista-rapida">VISTA RÁPIDA</div>
                 </div>
                 <h2 id="producto-nombre">Nombre del Producto</h2>
@@ -45,7 +45,33 @@
             </div>
         </div>
 
-        <script src="script.js"></script>
+        <div id="product-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="imagen-producto">
+                    <button class="prev">&laquo;</button>
+                    <!-- Las imágenes del modal se añadirán dinámicamente aquí -->
+                    <div class="imagen-container"></div>
+                    <button class="next">&raquo;</button>
+                </div>
+                <h2 id="modal-producto-nombre">Nombre del Producto</h2>
+                <p class="linea-separadora"></p>
+                <p class="precio"><span>Precio:</span> <span id="modal-producto-precio">$0.00</span></p>
+                <p class="promo">PROMO Transferencia: <span id="modal-producto-precio-promo">$0.00</span></p>
+                <p id="modal-producto-descripcion" class="descripcion"></p>
+                <select id="modal-colores"></select>
+                <select id="modal-baulera"></select>
+                <di class="descripcionIND"></di>
+                <div class="botones">
+                    <button class="btn comprar">Comprar</button>
+                    <button class="btn carrito">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+        
+
+        <script src="Scripts/script.js"></script>
+        <script src="Scripts/modal.js"></script>
     </main>
 </body>
 
