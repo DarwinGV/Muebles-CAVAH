@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Muebles</title>
+    <link rel="stylesheet" href="Styles/producto.css">
+    <link rel="stylesheet" href="Styles/main.css">
+    <link rel="stylesheet" href="Styles/headerfooter.css">
+    <link rel="stylesheet" href="Styles/modalProducto.css">
+    <link rel="stylesheet" href="Styles/botones.css">
+    <link rel="stylesheet" href="Styles/formulario.css">
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html">Inicio</a></li>
+                <li class="nav-item"><a href="formulario.html">Formulario</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <form id="formulario">
+        <!-- El formulario será generado aquí -->
+    </form>
+
+    <div id="producto-duplicado"></div> <!-- Contenedor para el producto duplicado -->
+    <button class="btn" type="button" id="checkout-btn">Pagar</button>
+    <script src="Scripts/formulario.js"></script>
+    <script src="Scripts/mercadopago.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const productoSeleccionado = localStorage.getItem('productoSeleccionado');
+            if (productoSeleccionado) {
+                document.getElementById('producto-duplicado').innerHTML = productoSeleccionado;
+            }
+        });
+    </script>
+
+
+</body>
+</html>

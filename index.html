@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Muebles</title>
-    <link rel="stylesheet" href="/Styles/producto.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="Styles/main.css">
     <link rel="stylesheet" href="Styles/producto.css">
     <link rel="stylesheet" href="Styles/headerfooter.css">
@@ -20,8 +17,11 @@
 <body>
 
     <header>
-        <nav>
-            <p>Barra navegadora</p>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html">Inicio</a></li>
+                <li class="nav-item"><a href="formulario.html">Formulario</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -32,15 +32,17 @@
                     <img id="producto-imagen" src="" alt="Producto" class="producto-imagen">
                     <div class="vista-rapida">VISTA RÁPIDA</div>
                 </div>
-                <h2 id="producto-nombre">Nombre del Producto</h2>
-                <p class="linea-separadora"></p>
-                <p class="precio"><span>Precio:</span> <span id="producto-precio">$0.00</span></p>
-                <p class="promo">PROMO Transferencia: <span id="producto-precio-promo">$0.00</span></p>
-                <select id="colores"></select>
-                <select id="baulera"></select>
-                <div class="botones">
-                    <button class="btn comprar">Comprar</button>
-                    <button class="btn carrito">Añadir al carrito</button>
+                <div class="tarjeta-producto-datos">
+                    <h2 id="producto-nombre">Nombre del Producto</h2>
+                    <p class="linea-separadora"></p>
+                    <p class="precio"><span>Precio:</span> <span id="producto-precio">$0.00</span></p>
+                    <p class="promo">PROMO Transferencia: <span id="producto-precio-promo">$0.00</span></p>
+                    <select id="colores"></select>
+                    <select id="baulera"></select>
+                    <div class="botones">
+                        <button class="btn comprar">Comprar</button>
+                        <button class="btn carrito">Añadir al carrito</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,21 +56,27 @@
                     <div class="imagen-container"></div>
                     <button class="next">&raquo;</button>
                 </div>
-                <h2 id="modal-producto-nombre">Nombre del Producto</h2>
-                <p class="linea-separadora"></p>
-                <p class="precio"><span>Precio:</span> <span id="modal-producto-precio">$0.00</span></p>
-                <p class="promo">PROMO Transferencia: <span id="modal-producto-precio-promo">$0.00</span></p>
-                <p id="modal-producto-descripcion" class="descripcion"></p>
-                <select id="modal-colores"></select>
-                <select id="modal-baulera"></select>
-                <di class="descripcionIND"></di>
-                <div class="botones">
-                    <button class="btn comprar">Comprar</button>
-                    <button class="btn carrito">Añadir al carrito</button>
+                <div class="modal-producto-datos">
+                    <h2 id="modal-producto-nombre">Nombre del Producto</h2>
+                    <p class="linea-separadora"></p>
+                    <p class="precio"><span>Precio:</span> <span id="modal-producto-precio">$0.00</span></p>
+                    <p class="promo">PROMO Transferencia: <span id="modal-producto-precio-promo">$0.00</span></p>
+                    <p id="modal-producto-descripcion" class="descripcion"></p>
+                    <select id="modal-colores"></select>
+                    <select id="modal-baulera"></select>
+                    <div class="descripcionIND"></div>
+                    <p class="linea-separadora"></p>
+                    <div class="botones">
+                        <button class="btn comprar">Comprar</button>
+                        <button class="btn carrito">Añadir al carrito</button>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
+        <footer>
+
+        </footer>
 
         <script src="Scripts/script.js"></script>
         <script src="Scripts/modal.js"></script>

@@ -12,6 +12,15 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.modal-content {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    width: 300px;
+    margin: 20px;
+}
+
 /* Contenido del modal */
 .modal-content {
     background-color: #fefefe;

@@ -2,14 +2,11 @@ function abrirModal(producto, filas, encabezados) {
     const modal = document.getElementById('product-modal');
     if (!modal) return;
 
-    const indiceID = encabezados.indexOf("ID");
-    const indiceColor = encabezados.indexOf("Color");
-    const indiceBaulera = encabezados.indexOf("Baulera");
-    const indicePrecio = encabezados.indexOf("Precio");
-    const indicePrecioPROMO = encabezados.indexOf("PrecioPROMO");
-    const indiceImagen = encabezados.indexOf("x1800");
-    const indiceDescripcionIND = encabezados.indexOf("DescripcionIND");
+    // Obtención de índices de las columnas relevantes
+    const [indiceID, indiceColor, indiceBaulera, indicePrecio, indicePrecioPROMO, indiceImagen, indiceDescripcionIND] = 
+        ["ID", "Color", "Baulera", "Precio", "PrecioPROMO", "x1800", "DescripcionIND"].map(col => encabezados.indexOf(col));
 
+    // Selección de elementos del modal
     const modalNombre = modal.querySelector('#modal-producto-nombre');
     const modalPrecio = modal.querySelector('#modal-producto-precio');
     const modalPrecioPromo = modal.querySelector('#modal-producto-precio-promo');
@@ -21,20 +18,21 @@ function abrirModal(producto, filas, encabezados) {
     let currentImageIndex = 0;
     let imagenes = [];
 
+    // Configuración de datos iniciales del producto en el modal
     if (modalNombre) modalNombre.textContent = producto.id;
     if (modalPrecio) modalPrecio.textContent = `$${parseInt(producto.precio).toLocaleString('es-AR')}`;
     if (modalPrecioPromo) modalPrecioPromo.textContent = `$${parseInt(producto.precioPROMO).toLocaleString('es-AR')}`;
 
+    // Función para mostrar una imagen específica y su descripción
     const showImage = (index) => {
         const images = modalImageContainer.querySelectorAll('img');
-        images.forEach((img, i) => {
-            img.classList.toggle('active', i === index);
-        });
+        images.forEach((img, i) => img.classList.toggle('active', i === index));
         if (modalDescripcionIND && imagenes[index]) {
-            modalDescripcionIND.innerHTML = imagenes[index].descripcion; // Mostrar la descripción de la imagen actual
+            modalDescripcionIND.innerHTML = imagenes[index].descripcion;
         }
     };
 
+    // Configuración de imágenes en el modal
     if (modalImageContainer) {
         modalImageContainer.innerHTML = '';
         if (Array.isArray(producto.imagenes)) {
@@ -50,6 +48,7 @@ function abrirModal(producto, filas, encabezados) {
         }
     }
 
+    // Configuración de opciones de colores en el modal
     if (modalSelectColores) {
         modalSelectColores.innerHTML = '';
         if (producto.colores instanceof Set) {
@@ -62,6 +61,7 @@ function abrirModal(producto, filas, encabezados) {
         }
     }
 
+    // Configuración de opciones de baulera en el modal
     if (modalSelectBaulera) {
         modalSelectBaulera.innerHTML = '';
         if (producto.bauleras instanceof Set) {
@@ -74,67 +74,57 @@ function abrirModal(producto, filas, encabezados) {
         }
     }
 
+    // Función para actualizar el contenido del modal según las selecciones de color y baulera
     const updateModalContent = () => {
         const colorSeleccionado = modalSelectColores.value;
         const bauleraSeleccionada = modalSelectBaulera.value;
-        const filaEncontrada = filas.find(fila => fila[indiceID] === producto.id && fila[indiceColor] === colorSeleccionado && fila[indiceBaulera] === bauleraSeleccionada);
+        const filaEncontrada = filas.find(fila => 
+            fila[indiceID] === producto.id && fila[indiceColor] === colorSeleccionado && fila[indiceBaulera] === bauleraSeleccionada);
+        
         if (filaEncontrada) {
-            const precio = filaEncontrada[indicePrecio];
-            const precioPROMO = filaEncontrada[indicePrecioPROMO];
-            const descripcionIND = filaEncontrada[indiceDescripcionIND];
-
-            modal.querySelector('#modal-producto-precio').textContent = `$${parseInt(precio).toLocaleString('es-AR')}`;
-            modal.querySelector('#modal-producto-precio-promo').textContent = `$${parseInt(precioPROMO).toLocaleString('es-AR')}`;
+            modalPrecio.textContent = `$${parseInt(filaEncontrada[indicePrecio]).toLocaleString('es-AR')}`;
+            modalPrecioPromo.textContent = `$${parseInt(filaEncontrada[indicePrecioPROMO]).toLocaleString('es-AR')}`;
             modalImageContainer.innerHTML = '';
-            const imagenLinks = filaEncontrada[indiceImagen].split(',');
-            console.log(imagenLinks)
-            imagenes = imagenLinks.map((link, index) => {
+            imagenes = filaEncontrada[indiceImagen].split(',').map((link, index) => {
                 const img = document.createElement('img');
                 img.src = link;
                 img.alt = producto.id;
                 img.dataset.index = index;
                 modalImageContainer.appendChild(img);
-                return { link, descripcion: descripcionIND }; // Agregar la descripción a cada imagen
+                return { link, descripcion: filaEncontrada[indiceDescripcionIND] };
             });
             currentImageIndex = 0;
             showImage(currentImageIndex);
-
-            if (modalDescripcionIND) {
-                modalDescripcionIND.innerHTML = descripcionIND;
-            }
+            modalDescripcionIND.innerHTML = filaEncontrada[indiceDescripcionIND];
         } else {
-            modal.querySelector('#modal-producto-precio').textContent = '$0';
-            modal.querySelector('#modal-producto-precio-promo').textContent = '$0';
+            modalPrecio.textContent = '$0';
+            modalPrecioPromo.textContent = '$0';
             modalImageContainer.innerHTML = '';
-            if (modalDescripcionIND) {
-                modalDescripcionIND.innerHTML = '';
-            }
+            modalDescripcionIND.innerHTML = '';
         }
     };
 
+    // Eventos para cambiar contenido del modal según selecciones
     modalSelectColores.addEventListener('change', updateModalContent);
     modalSelectBaulera.addEventListener('change', updateModalContent);
 
+    // Eventos para cambiar de imagen
     modal.querySelector('.prev').addEventListener('click', () => {
         currentImageIndex = (currentImageIndex - 1 + imagenes.length) % imagenes.length;
         showImage(currentImageIndex);
-        console.log(currentImageIndex)
     });
 
     modal.querySelector('.next').addEventListener('click', () => {
         currentImageIndex = (currentImageIndex + 1) % imagenes.length;
         showImage(currentImageIndex);
-        console.log(currentImageIndex)
     });
 
+    // Mostrar el modal y actualizar contenido inicial
     modal.style.display = 'block';
-
     updateModalContent();
 
-    document.querySelector('.modal .close').onclick = () => {
-        modal.style.display = 'none';
-    };
-
+    // Cerrar el modal
+    document.querySelector('.modal .close').onclick = () => modal.style.display = 'none';
     window.onclick = (event) => {
         if (event.target === modal) {
             modal.style.display = 'none';

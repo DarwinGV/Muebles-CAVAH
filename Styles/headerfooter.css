@@ -1,6 +1,31 @@
 nav{
-    height: 30px;
-    background-color: aquamarine;
+    height: auto;
+    background-color: rgb(255, 127, 127);
     padding: 10px;
     text-align: center;
+}
+
+.nav-list {
+    list-style-type: none; /* Eliminar los puntos de la lista */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Usar flexbox para alinear los elementos */
+    justify-content: center; /* Centrar los elementos horizontalmente */
+}
+
+.nav-item {
+    margin: 0 15px; /* Espaciado entre los elementos de la lista */
+}
+
+.nav-item a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.nav-item a:hover {
+    background-color: #ddd;
+    color: black;
 }

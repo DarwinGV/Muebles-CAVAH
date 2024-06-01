@@ -1,7 +1,7 @@
 /* producto.css */
 #contenedor-tarjetas {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .tarjeta-producto {
@@ -45,6 +45,7 @@
     transform: translateY(100%);
     transition: opacity 0.5s ease, transform 0.5s ease;
     font-family: "Montserrat", sans-serif;
+    cursor: pointer;
 }
 
 .imagen-producto:hover .vista-rapida {
@@ -80,13 +81,13 @@
     color: #555;
 }
 
-.tarjeta-producto .promo {
+.promo {
     color: #ff7c7c;
     font-size: 1em;
     margin-top: 0;
 }
 
-.tarjeta-producto .promo span {
+.promo span {
     font-weight: bold;
 }
 
